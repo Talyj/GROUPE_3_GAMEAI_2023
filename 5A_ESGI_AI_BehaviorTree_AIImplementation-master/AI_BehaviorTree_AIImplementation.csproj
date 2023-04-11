@@ -123,6 +123,7 @@
   <ItemGroup>
     <Compile Include="AIDecisionMaker.cs" />
     <Compile Include="BehaviorTree.cs" />
+    <Compile Include="Kyllian_BT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\AI_BehaviorTree_AIImplementation.rd.xml" />
   </ItemGroup>
