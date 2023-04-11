@@ -3,109 +3,130 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-public class Sequence : Node
+
+namespace BehaviorTree_ESGI
 {
-    public List<Node> nodes;
-    public Sequence()
+    public class Sequence : Node
     {
-        nodes = new List<Node>();
+        public List<Node> nodes;
+        public Sequence()
+        {
+            nodes = new List<Node>();
+        }
+
+        public override void Execute()
+        {   
+            foreach (Node n in nodes)
+            {
+                n.Execute();
+                if (n.state == NodeState.Failure)
+                {
+                    this.state = NodeState.Failure;
+                    return;
+                }
+
+                if (n.state != NodeState.NotExecuted)
+                {
+                    this.state = n.state;
+                }
+            }
+
+
+        }
     }
 
-    public new void Execute()
+    public class Selector : Node
     {
-        foreach (Node n in nodes)
+        public Node lastRunningNode;
+        public List<Node> nodes;
+
+        public Selector()
         {
-            if (n.state == NodeState.Failure)
+            nodes = new List<Node>();
+            lastRunningNode = null;
+        }
+
+        public override void Execute()
+        {
+
+            if (lastRunningNode != null)
+            {
+                lastRunningNode.Execute();
+                if (lastRunningNode.state == NodeState.Success)
+                {
+                    return;
+                }
+                else if (lastRunningNode.state == NodeState.Failure)
+                {
+                    lastRunningNode = null;
+                }
+            }
+
+            foreach (var node in nodes)
+            {
+                node.Execute();
+
+                if (node.state == NodeState.Running)
+                {
+                    lastRunningNode = node;
+                    return;
+                }
+
+                if (node.state == NodeState.Success)
+                {
+                    return;
+                }
+            }
+        }
+    }
+
+    public class Condition : Node
+    {
+        public Func<bool> conditionMethod;
+        public Condition(Func<bool> conditionMethod)
+        {
+            this.conditionMethod = conditionMethod;
+        }
+
+        public override void Execute()
+        {
+            if (conditionMethod())
+            {
+                this.state = NodeState.Success;
+            }
+            else
             {
                 this.state = NodeState.Failure;
-                return;
-            }
-
-            if(n.state != NodeState.NotExecuted)
-            {
-                this.state = n.state;
             }
         }
-    
-    
-    }
-}
-
-public class Selector : Node
-{
-    public Node lastRunningNode;
-    public List<Node> nodes;
-
-    public Selector()
-    {
-        nodes = new List<Node>();
-        lastRunningNode= null;
     }
 
-    public new void Execute()
+    public enum NodeState
     {
-        foreach(var i in nodes)
+        NotExecuted = 0, Failure = 1, Success = 2, Running = 4
+    }
+
+    public class Node
+    {
+        public NodeState state;
+        public Node()
         {
-            if (i.state == NodeState.Running)
-            {
-                lastRunningNode = i;
-            }
-
-            if (i.state == NodeState.Success)
-            {
-                return ;
-            }
-
+            state = NodeState.NotExecuted;
         }
-    }
-}
 
-public class Condition : Node
-{
-    public Func<bool> conditionMethod;
-    public Condition(Func<bool> conditionMethod)
-    {
-        this.conditionMethod = conditionMethod; 
-    }
+        public virtual void Execute()
+        {
+            //TODO : Exe the differents nodes in the list
+        }
 
-    public new void Execute()
-    {
-        if (conditionMethod())
+        public void ForceSuccess()
         {
             this.state = NodeState.Success;
         }
-        else
+
+        public void ForceFailure()
         {
             this.state = NodeState.Failure;
         }
-    }
-}
-
-public enum NodeState
-{
-    NotExecuted = 0, Failure = 1, Success = 2, Running = 4
-}
-
-public class Node
-{
-    public NodeState state;
-    public Node()
-    {
-        state = NodeState.NotExecuted;
-    }
-
-    public void Execute()
-    {
-        //TODO : Exe the differents nodes in the list
-    }
-
-    public void ForceSuccess()
-    {
-        this.state = NodeState.Success;
-    }
-
-    public void ForceFailure()
-    {
-        this.state = NodeState.Failure;
     }
 }
