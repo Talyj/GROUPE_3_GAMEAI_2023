@@ -21,7 +21,7 @@ namespace AI_BehaviorTree_AIImplementation
         public void SetAIId(int parAIId) { AIId = parAIId; }
 
         // Vous pouvez modifier le contenu de cette fonction pour modifier votre nom en jeu
-        public string GetName() { return "Julien"; }
+        public string GetName() { return "KYYX_AI_BG"; }
 
         public void SetAIGameWorldUtils(GameWorldUtils parGameWorldUtils) { AIGameWorldUtils = parGameWorldUtils; }
 
@@ -67,17 +67,6 @@ namespace AI_BehaviorTree_AIImplementation
                 actionList.Add(actionMove);
             }
 
-            //if (Vector3.Distance(myPlayerInfo.Transform.Position, target.Transform.Position) < BestDistanceToFire)
-            //{
-            //    AIActionDash actionDash = new AIActionDash();                
-            //    actionList.Add(actionDash);
-            //}
-            //else
-            //{
-            //    AIActionMoveToDestination actionMove = new AIActionMoveToDestination();
-            //    actionMove.Position = target.Transform.Position;
-            //    actionList.Add(actionMove);
-            //}
 
             AIActionLookAtPosition actionLookAt = new AIActionLookAtPosition();
             actionLookAt.Position = target.Transform.Position;
@@ -99,4 +88,5 @@ namespace AI_BehaviorTree_AIImplementation
             return null;
         }
     }
+
 }
