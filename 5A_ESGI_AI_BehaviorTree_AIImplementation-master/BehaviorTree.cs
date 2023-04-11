@@ -82,15 +82,14 @@ namespace BehaviorTree_ESGI
 
     public class Condition : Node
     {
-        public Func<bool> conditionMethod;
-        public Condition(Func<bool> conditionMethod)
+        public Condition()
         {
-            this.conditionMethod = conditionMethod;
+         
         }
 
         public override void Execute()
         {
-            if (conditionMethod())
+            if (Check())
             {
                 this.state = NodeState.Success;
             }
@@ -99,6 +98,8 @@ namespace BehaviorTree_ESGI
                 this.state = NodeState.Failure;
             }
         }
+
+        public virtual bool Check() { return true; }
     }
 
     public enum NodeState
