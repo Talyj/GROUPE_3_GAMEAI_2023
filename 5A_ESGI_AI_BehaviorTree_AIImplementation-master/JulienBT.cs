@@ -7,11 +7,13 @@ using BehaviorTree_ESGI;
 
 namespace AI_BehaviorTree_AIImplementation
 {
-    internal class JulienBT
+    public class JulienBT
     {
-        public void Execute()
-        {
+        
 
+        public int Execute(int typeAction)
+        {
+            
         }
 
         //TODO 
