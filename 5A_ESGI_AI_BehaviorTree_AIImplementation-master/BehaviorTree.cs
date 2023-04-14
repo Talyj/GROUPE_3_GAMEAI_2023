@@ -51,6 +51,7 @@ namespace BehaviorTree_ESGI
 
             if (lastRunningNode != null)
             {
+                Debug.LogError(lastRunningNode);
                 lastRunningNode.Execute();
                 if (lastRunningNode.state == NodeState.Success)
                 {
@@ -100,6 +101,52 @@ namespace BehaviorTree_ESGI
         }
 
         public virtual bool Check() { return true; }
+    }
+
+    //Decorator
+
+    public class ForceSuccess : Node
+    {
+        public ForceSuccess() { }
+
+        public override void Execute()
+        {
+            this.state = NodeState.Success;
+        }
+    }
+
+    public class ForceFailure : Node
+    {
+        public ForceFailure() { }
+
+        public override void Execute()
+        {
+            this.state = NodeState.Failure;
+        }
+    }
+
+    public class Inverter : Node
+    {
+        Node node;
+        public Inverter(Node node) { this.node = node; }
+
+        public override void Execute()
+        {
+            node.Execute();
+            switch(node.state)
+            {
+                case NodeState.Success:
+                    this.state = NodeState.Failure;
+                    break;
+                case NodeState.Failure: 
+                    this.state = NodeState.Success;
+                    break;
+                default:
+                    this.state = node.state;
+                    break;
+            }
+            
+        }
     }
 
     public enum NodeState
