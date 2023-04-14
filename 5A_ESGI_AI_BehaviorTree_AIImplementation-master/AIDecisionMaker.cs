@@ -24,12 +24,10 @@ namespace AI_BehaviorTree_AIImplementation
             Blackboard.Initialize(parAIId);
 
             AIId = parAIId;
-            var actionMove = new MovementSequence();
-            var actionDodge = new DodgeSequence();
-            var actionLookAt = new LookAt();
+            var actionMove = new AttackSequence();
+            var actionDodge = new DodgeSelector();
             Blackboard.firstNode.nodes.Add(actionDodge);
             Blackboard.firstNode.nodes.Add(actionMove);
-            Blackboard.firstNode.nodes.Add(actionLookAt);
         }
 
         // Vous pouvez modifier le contenu de cette fonction pour modifier votre nom en jeu

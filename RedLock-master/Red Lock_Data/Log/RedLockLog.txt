@@ -1,0 +1,150 @@
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+
+Take damage 2
+UnityEngine.Debug:Log (object)
+LifeScript:AlterHealth (UnityEngine.GameObject,int) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/PlayerController/LifeScript.cs:32)
+ProjectileScript:OnTriggerEnter (UnityEngine.Collider) (at C:/Users/Vrtra/Documents/Unity/AI_BehaviorTree_Project/Assets/Scripts/GameSystems/Weapons/ProjectileScript.cs:44)
+

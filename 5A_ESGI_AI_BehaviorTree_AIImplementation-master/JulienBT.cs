@@ -66,6 +66,7 @@ namespace Julien_BT
             AIId = aiid;
             firstNode = new Selector();
             BestDistanceToFire = 10.0f;
+            myPlayerInfo = new PlayerInformations();
         }
 
         public static void UpdateBlackboard(Func<int, List<PlayerInformations>, PlayerInformations> GetPlayerInfos) 
@@ -86,6 +87,17 @@ namespace Julien_BT
             myPlayerInfo = GetPlayerInfos(AIId, playerInfos);
             actionList = new List<AIAction>();
             firstNode.Execute();
+        }
+    }
+
+    public class Attack : Node
+    {
+        public Attack() { }
+        public override void Execute()
+        {
+            var actionAttack = new AIActionFire();
+            Blackboard.actionList.Add(actionAttack);
+            state = NodeState.Success;
         }
     }
 
@@ -131,12 +143,68 @@ namespace Julien_BT
         }
     }
 
-    public class MovementSequence : Sequence
+    public class HasPlayerInfo : Condition
+    {
+        public HasPlayerInfo() { }
+        public override bool Check()
+        {
+            return Blackboard.myPlayerInfo != null;
+        }
+    }
+
+    public class AttackSequence : Sequence
     {        
-        public MovementSequence() : base ()
+        public AttackSequence() : base ()
         {
             MoveToTarg moveToTarg = new MoveToTarg();
-            nodes.Add(moveToTarg);
+            LookAt lookAt = new LookAt();
+            Attack attack = new Attack();
+            //nodes.Add(moveToTarg);
+            nodes.Add(lookAt);
+            nodes.Add(attack);
+        }
+    }
+
+    public class DodgeSelector : Selector
+    {
+        public DodgeSelector() : base()
+        {
+
+            //DashSequence dq = new DashSequence();
+            //nodes.Add(dq);
+            MoveToDodge mtd = new MoveToDodge();
+            nodes.Add(mtd);
+        }
+    }
+
+    public class MoveToDodge : Node
+    {
+        public MoveToDodge()
+        {
+        }
+
+        public override void Execute()
+        {
+            var projectifInformations = Physics.OverlapSphere(Blackboard.myPlayerInfo.Transform.Position, 50.0f);
+            var bullets = new List<Collider>();
+            foreach (var obj in projectifInformations)
+            {
+                bullets.Add(obj);
+            }
+
+            foreach (var bull in bullets)
+            {
+                if (Vector3.Distance(Blackboard.myPlayerInfo.Transform.Position, bull.gameObject.transform.position) < 10.0f)
+                {
+                    var dirBullet = bull.gameObject.transform.position + Vector3.forward;
+                    AIActionMoveToDestination actionMove = new AIActionMoveToDestination()
+                    {
+                        Position = (Quaternion.AngleAxis(90, Vector3.up) * dirBullet).normalized * 50.0f
+                    };
+                    Blackboard.actionList.Add(actionMove);
+                    state = NodeState.Success;                
+                }
+            }
         }
     }
 
@@ -150,10 +218,9 @@ namespace Julien_BT
 
             if (Blackboard.myPlayerInfo.IsDashAvailable)
             {
-                Debug.LogError("Oue");
                 AIActionDash actionDash = new AIActionDash()
                 {
-                    Direction = dir
+                    Direction = dir * 50f
                 };
                 Blackboard.actionList.Add(actionDash);
                 state = NodeState.Success;
@@ -161,42 +228,28 @@ namespace Julien_BT
         }
     }
 
-    //DashAction
-    //MoveAction
-    public class DodgeSequence : Sequence
+    public class DashSequence : Sequence
     {
-        public DodgeSequence() : base()
+        public DashSequence()
         {
             var projectifInformations = Physics.OverlapSphere(Blackboard.myPlayerInfo.Transform.Position, 50.0f);
-            var bullets = new List<ProjectileInformations>();
+            var bullets = new List<Collider>();
             foreach (var obj in projectifInformations)
             {
-                if (obj.GetComponent<ProjectileInformations>() != null)
-                {
-                    bullets.Add(obj.GetComponent<ProjectileInformations>());
-                }
+                bullets.Add(obj);
             }
+
             foreach (var bul in bullets)
             {
-                if (bul.PlayerId != Blackboard.AIId)
+                if (bul.gameObject.GetComponent<ProjectileInformations>().PlayerId != Blackboard.AIId)
                 {
-                    var dirBullet = bul.Transform.Rotation * Vector3.forward;
+                    var dirBullet = bul.gameObject.transform.position + Vector3.forward;
                     CanDash canDash = new CanDash();
                     nodes.Add(canDash);
                     DashFrom actionNode = new DashFrom(Quaternion.AngleAxis(90, Vector3.up) * dirBullet);
                     nodes.Add(actionNode);
                 }
             }
-        }
-    }
-
-    public class AttackSequence : Sequence
-    {
-
-        public AttackSequence() : base()
-        {
-            nodes = new List<Node>();
-            //PAPAPAPAPA
         }
     }
 }
