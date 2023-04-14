@@ -116,9 +116,11 @@ namespace Julien_BT
         }
     }
 
+    //Not used
     public class MoveToTarg : Node
     {
-        public MoveToTarg() { }
+        Vector3 positionTarg;
+        public MoveToTarg(Vector3 position) { positionTarg = position; }
 
         public override void Execute()
         {
@@ -126,7 +128,7 @@ namespace Julien_BT
             {
                 AIActionMoveToDestination actionMove = new AIActionMoveToDestination()
                 {
-                    Position = Blackboard.target.Transform.Position
+                    Position = positionTarg
                 };
                 Blackboard.actionList.Add(actionMove);
                 state = NodeState.Success;
@@ -134,6 +136,7 @@ namespace Julien_BT
         }
     }
 
+    //Not used
     public class CanDash : Condition
     {
         public CanDash() { }
@@ -143,12 +146,17 @@ namespace Julien_BT
         }
     }
 
-    public class HasPlayerInfo : Condition
+    //not used
+    public class IsLowHealth : Condition
     {
-        public HasPlayerInfo() { }
+        public IsLowHealth() { }
         public override bool Check()
         {
-            return Blackboard.myPlayerInfo != null;
+            if(Blackboard.myPlayerInfo.CurrentHealth <= (Blackboard.myPlayerInfo.MaxHealth * 30) / 100)
+            {
+                return false;
+            }
+            return true;
         }
     }
 
@@ -156,7 +164,7 @@ namespace Julien_BT
     {        
         public AttackSequence() : base ()
         {
-            MoveToTarg moveToTarg = new MoveToTarg();
+            //MoveToTarg moveToTarg = new MoveToTarg();
             LookAt lookAt = new LookAt();
             Attack attack = new Attack();
             //nodes.Add(moveToTarg);
@@ -165,6 +173,7 @@ namespace Julien_BT
         }
     }
 
+    //Not used
     public class DodgeSelector : Selector
     {
         public DodgeSelector() : base()
@@ -177,6 +186,43 @@ namespace Julien_BT
         }
     }
 
+    //Not used
+    public class GetHealthSequence : Sequence 
+    { 
+        public GetHealthSequence() 
+        {
+            IsLowHealth isLowHealth = new IsLowHealth();
+            Blackboard.NodeList.Add(isLowHealth);
+            MoveToGetHealth moveToGetHealth = new MoveToGetHealth();
+            Blackboard.NodeList.Add(moveToGetHealth);
+        }
+
+    }
+    //Not used
+    public class MoveToGetHealth : Node
+    {
+        public MoveToGetHealth() { }
+
+
+        public override void Execute()
+        {
+            var listBonus = Blackboard.gameWorldUtils.GetBonusInfosList();
+            foreach(var bon in listBonus)
+            {
+                if (bon.Type == EBonusType.Health)
+                {
+                    AIActionMoveToDestination actionMove = new AIActionMoveToDestination()
+                    {
+                        Position = bon.Position
+                    };
+                    Blackboard.actionList.Add(actionMove);
+                    state = NodeState.Running;
+                }
+            }
+        }
+
+    }
+
     public class MoveToDodge : Node
     {
         public MoveToDodge()
@@ -186,20 +232,14 @@ namespace Julien_BT
         public override void Execute()
         {
             var projectifInformations = Physics.OverlapSphere(Blackboard.myPlayerInfo.Transform.Position, 50.0f);
-            var bullets = new List<Collider>();
-            foreach (var obj in projectifInformations)
+            foreach (var bull in projectifInformations)
             {
-                bullets.Add(obj);
-            }
-
-            foreach (var bull in bullets)
-            {
+                var dirBullet = bull.gameObject.transform.position + Vector3.forward;
                 if (Vector3.Distance(Blackboard.myPlayerInfo.Transform.Position, bull.gameObject.transform.position) < 10.0f)
                 {
-                    var dirBullet = bull.gameObject.transform.position + Vector3.forward;
                     AIActionMoveToDestination actionMove = new AIActionMoveToDestination()
                     {
-                        Position = (Quaternion.AngleAxis(90, Vector3.up) * dirBullet).normalized * 50.0f
+                        Position = (Quaternion.AngleAxis(70, Vector3.up) * dirBullet).normalized * 50.0f
                     };
                     Blackboard.actionList.Add(actionMove);
                     state = NodeState.Success;                
@@ -208,6 +248,7 @@ namespace Julien_BT
         }
     }
 
+    //Not used
     public class DashFrom : Node
     {
         Vector3 dir;
@@ -228,6 +269,7 @@ namespace Julien_BT
         }
     }
 
+    //Not used
     public class DashSequence : Sequence
     {
         public DashSequence()

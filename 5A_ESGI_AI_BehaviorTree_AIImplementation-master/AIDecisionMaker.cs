@@ -26,6 +26,8 @@ namespace AI_BehaviorTree_AIImplementation
             AIId = parAIId;
             var actionMove = new AttackSequence();
             var actionDodge = new DodgeSelector();
+            var actionGetHealth = new GetHealthSequence();
+            Blackboard.firstNode.nodes.Add(actionGetHealth);
             Blackboard.firstNode.nodes.Add(actionDodge);
             Blackboard.firstNode.nodes.Add(actionMove);
         }
