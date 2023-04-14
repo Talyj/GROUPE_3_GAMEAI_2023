@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Kyllian_AI;
+using BehaviorTree_ESGI;
 
 namespace AI_BehaviorTree_AIImplementation
 {
@@ -18,20 +20,36 @@ namespace AI_BehaviorTree_AIImplementation
         public GameWorldUtils AIGameWorldUtils = new GameWorldUtils();
 
         // Ne pas utiliser cette fonction, elle n'est utile que pour le jeu qui vous Set votre Id, si vous voulez votre Id utilisez AIId
-        public void SetAIId(int parAIId) { AIId = parAIId; }
+        public void SetAIId(int parAIId) { 
+            AIId = parAIId;
+            
+            Selector start = new Selector();
+            LowHealthSequence lowHealthSequence = new LowHealthSequence();
+            NoTargetSequence noTargetSequence = new NoTargetSequence();
+            IsPlayerInvalidCondition isPlayerInvalidCondition = new IsPlayerInvalidCondition();
+            MoveSelector moveSelector = new MoveSelector();
+            AttackSequence attackSequence = new AttackSequence();
+            start.nodes.Add(lowHealthSequence);
+            start.nodes.Add(noTargetSequence);
+            start.nodes.Add(isPlayerInvalidCondition);
+            start.nodes.Add(moveSelector);
+            start.nodes.Add(attackSequence);
+
+            Blackboard.Initialize(start, AIId); 
+        }
 
         // Vous pouvez modifier le contenu de cette fonction pour modifier votre nom en jeu
-        public string GetName() { return "KYYX_AI_BG"; }
+        public string GetName() { return "KYYX_AI"; }
 
-        public void SetAIGameWorldUtils(GameWorldUtils parGameWorldUtils) { AIGameWorldUtils = parGameWorldUtils; }
+        public void SetAIGameWorldUtils(GameWorldUtils parGameWorldUtils) { AIGameWorldUtils = parGameWorldUtils; Blackboard.SetAIGameWorld(parGameWorldUtils); }
 
         //Fin du bloc de fonction nécessaire (Attention ComputeAIDecision en fait aussi partit)
 
 
-        private float BestDistanceToFire = 10.0f;
         public List<AIAction> ComputeAIDecision()
         {
-            List<AIAction> actionList = new List<AIAction>();
+            //Debug.LogError($"{AIGameWorldUtils.Equals(Blackboard.AIGameWorldUtils)}");
+            /*List<AIAction> actionList = new List<AIAction>();
 
             List<PlayerInformations> playerInfos = AIGameWorldUtils.GetPlayerInfosList();
 
@@ -73,7 +91,11 @@ namespace AI_BehaviorTree_AIImplementation
             actionList.Add(actionLookAt);
             actionList.Add(new AIActionFire());
 
-            return actionList;
+            return actionList;*/
+
+            Blackboard.Execute(GetPlayerInfos);
+
+            return Blackboard.actions;
         }
 
         public PlayerInformations GetPlayerInfos(int parPlayerId, List<PlayerInformations> parPlayerInfosList)

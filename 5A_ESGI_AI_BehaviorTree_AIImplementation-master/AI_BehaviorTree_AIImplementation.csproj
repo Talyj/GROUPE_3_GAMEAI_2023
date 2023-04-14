@@ -134,8 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AI_BehaviorTree_AIGameUtility">
-      <HintPath>..\RedLock-master\Red Lock_Data\Managed\AI_BehaviorTree_AIGameUtility.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\RedLock-master\Red Lock_Data\Managed\AI_BehaviorTree_AIGameUtility.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>F:\Logiciel\Unity\Unity 2021\2021.3.22f1\Editor\Data\Managed\UnityEngine.dll</HintPath>
