@@ -22,6 +22,13 @@ namespace AI_BehaviorTree_AIImplementation
 
             MoveToNearestTarget moveTo = new MoveToNearestTarget();
             Blackboard.firstNode = moveTo;
+            FindTargetLowestHealth kill = new FindTargetLowestHealth();
+            Blackboard.nodeList.Add(kill);
+            NeedDash dodge = new NeedDash();
+            Blackboard.nodeList.Add(dodge);
+            NeedHealth nd = new NeedHealth();
+            Blackboard.nodeList.Add(nd);
+            //Debug.LogError(Blackboard.nodeList.Count);
         }
 
         // Vous pouvez modifier le contenu de cette fonction pour modifier votre nom en jeu
