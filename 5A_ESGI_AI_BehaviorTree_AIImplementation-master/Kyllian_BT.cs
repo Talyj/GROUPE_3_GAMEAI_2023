@@ -3,6 +3,7 @@ using BehaviorTree_ESGI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Assertions;
 using Windows.UI.Xaml.Media;
 using static UnityEngine.GraphicsBuffer;
@@ -25,11 +26,17 @@ namespace Kyllian_AI
         public static PlayerInformations target = null;
         public static PlayerInformations myPlayerInfo = null;
 
-        public static void Initialize(Node sn, int id)
+        public static float overlap = 10.0f;
+
+        public static Vector3 lastTargetPosition = Vector3.zero;
+        public static bool isSetTargetPositon = false;
+        public static int lastIDTarget = -1;
+
+        public static void Initialize(int id)
         {
             AIId = id;
             actions = new List<AIAction>();
-            startNode = sn;
+            startNode = new StartSelector();
         }
 
         public static void SetAIGameWorld(GameWorldUtils AIGW)
@@ -95,61 +102,19 @@ namespace Kyllian_AI
     }
 
     // Sequences
+    #region Sequences
 
     public class AttackSequence : Sequence
     {
-        public AttackSequence() : base() {
+        public AttackSequence(): base() { 
             AimAction aimAction = new AimAction();
-            LookAtTarget lookAtTarget = new LookAtTarget();
+            IsTargetVisible isTargetVisible = new IsTargetVisible();
             ShootAction shootAction = new ShootAction();
+            ForceFailure forceFailure = new ForceFailure();
             nodes.Add(aimAction);
-            nodes.Add(lookAtTarget);
+            nodes.Add(isTargetVisible);
             nodes.Add(shootAction);
-        }
-    }
-
-    public class StopSequence : Sequence
-    {
-        public StopSequence() : base()
-        {
-            HasBestRangeToShoot hasBestRangeToShoot = new HasBestRangeToShoot();
-            StopAction stopAction = new StopAction();
-            nodes.Add(hasBestRangeToShoot);
-            nodes.Add(stopAction);
-        }
-    }
-
-    public class GetAwaySequence : Sequence
-    {
-        public GetAwaySequence() : base()
-        {
-            TargetGetSight targetTooClose = new TargetGetSight();
-            GetAwaySelector getAwaySelector = new GetAwaySelector();
-            nodes.Add(targetTooClose);
-            nodes.Add(getAwaySelector);
-        }
-    }
-
-    public class IsDashAvailableSequence : Sequence
-    {
-        public IsDashAvailableSequence() : base()
-        {
-            IsDashAvailable isDashAvailable = new IsDashAvailable();
-            DashSelector dashSelector = new DashSelector();
-            nodes.Add(isDashAvailable);
-            nodes.Add(dashSelector);
-
-        }
-    }
-
-    public class AwayDashSequence : Sequence
-    {
-        public AwayDashSequence() : base()
-        {
-            TargetTooClose targetTooClose = new TargetTooClose();
-            AwayDash awayDash = new AwayDash();
-            nodes.Add(targetTooClose);
-            nodes.Add(awayDash);
+            nodes.Add(forceFailure);
         }
     }
 
@@ -157,22 +122,18 @@ namespace Kyllian_AI
     {
         public LowHealthSequence() : base()
         {
+            IsPlayerLowInHealth isPlayerLowInHealth = new IsPlayerLowInHealth();
             IsBonusAvailable isBonusAvailable = new IsBonusAvailable();
-            LowInHealth lowInHealth = new LowInHealth();
             GetHealthBonus getHealthBonus = new GetHealthBonus();
-            HasTargetCondition hasTargetCondition = new HasTargetCondition(); 
-            AttackSequence shoot = new AttackSequence();
+            nodes.Add(isPlayerLowInHealth);
             nodes.Add(isBonusAvailable);
-            nodes.Add(lowInHealth);
             nodes.Add(getHealthBonus);
-            nodes.Add(hasTargetCondition);
-            nodes.Add(shoot);
         }
     }
 
     public class GetBonusSequence : Sequence
     {
-        public GetBonusSequence(): base()
+        public GetBonusSequence() : base()
         {
             IsBonusAvailable isBonusAvailable = new IsBonusAvailable();
             GetNearestBonus getNearestBonus = new GetNearestBonus();
@@ -181,191 +142,127 @@ namespace Kyllian_AI
         }
     }
 
-    public class NoTargetSequence : Sequence
+    public class DashAwaySequence : Sequence
     {
-        public NoTargetSequence() : base()
+        public DashAwaySequence() : base()
         {
-            HasNotTargetCondition hasNotTargetCondition = new HasNotTargetCondition();
-            GetBonusSequence getNearestBonus = new GetBonusSequence();
-            nodes.Add(hasNotTargetCondition);
-            nodes.Add(getNearestBonus);
+            IsDashAvailable isDashAvailable = new IsDashAvailable();
+            IsTargetTooClose isTargetTooClose = new IsTargetTooClose();
+            DashAwayAction dashAwayAction = new DashAwayAction();
+            nodes.Add(isDashAvailable);
+            nodes.Add(isTargetTooClose);
+            nodes.Add(dashAwayAction);
         }
     }
+
+    #endregion
 
 
     //Selectors
-
-    public class DashSelector : Selector
+    #region Selector
+    public class StartSelector : Selector
     {
-        public DashSelector() : base()
+        public StartSelector() : base()
         {
-            AwayDashSequence awayDashSequence = new AwayDashSequence();
-            LateralDash lateralDash = new LateralDash();
-            nodes.Add(awayDashSequence); 
-            nodes.Add(lateralDash);
-        }
-    }
-
-    public class GetAwaySelector : Selector
-    {
-        public GetAwaySelector(): base()
-        {
-            IsDashAvailableSequence isDashAvailableSequence = new IsDashAvailableSequence();
-            GetAwayAction getAwayAction = new GetAwayAction();
-            nodes.Add(isDashAvailableSequence);
-            nodes.Add(getAwayAction);
-        }
-    }
-
-    public class MoveSelector : Selector
-    {
-        public MoveSelector() : base()
-        {
-            
-            GetAwaySequence getAwaySequence = new GetAwaySequence();
-            StopSequence stopSequence = new StopSequence();
+            Inverter PlayerValidity = new Inverter(new PlayerValid());
+            Inverter TargetValidity = new Inverter(new TargetValid());
+            AttackSequence attackSequence = new AttackSequence();
+            LowHealthSequence lowHealthSequence = new LowHealthSequence();
+            GetBonusSequence getBonusSequence = new GetBonusSequence();
+            DashAwaySequence dashAwaySequence = new DashAwaySequence();
             MoveAction moveAction = new MoveAction();
-            nodes.Add(getAwaySequence);
-            nodes.Add(stopSequence);
+            nodes.Add(PlayerValidity);
+            nodes.Add(TargetValidity);
+            nodes.Add(attackSequence);
+            nodes.Add(lowHealthSequence);
+            nodes.Add(getBonusSequence);
+            nodes.Add(dashAwaySequence);
             nodes.Add(moveAction);
+
         }
     }
+
+    #endregion
 
     //Actions
-
+    #region Actions
     public class AimAction : Node
     {
-        public AimAction() { }
+        
+        public AimAction()
+        {
+        }
 
         override
         public void Execute()
         {
+            if (Blackboard.isSetTargetPositon)
+            {
+                Blackboard.lastTargetPosition = Blackboard.target.Transform.Position;
+                Blackboard.lastIDTarget = Blackboard.target.PlayerId;
+                state = NodeState.Running;
+                return;
+            }
+
+            if(Blackboard.lastIDTarget != Blackboard.target.PlayerId)
+            {
+                Blackboard.lastTargetPosition = Blackboard.target.Transform.Position;
+                Blackboard.lastIDTarget = Blackboard.target.PlayerId;
+                state = NodeState.Failure;
+                return;
+            }
+
             AIActionLookAtPosition actionLookAt = new AIActionLookAtPosition();
+
             actionLookAt.Position = Blackboard.target.Transform.Position;
+
+            float distance = Vector3.Distance(Blackboard.lastTargetPosition, Blackboard.target.Transform.Position);
+
+            if (distance > 0.1f)
+            {
+                Vector3 offset = Blackboard.target.Transform.Position - Blackboard.lastTargetPosition;
+                Vector3 newPostion = Blackboard.target.Transform.Position + offset;
+
+                float distanceToTarget = Vector3.Distance(newPostion, Blackboard.myPlayerInfo.Transform.Position);
+
+                float projectileSpeed = 5.0f;
+                float travelTime = distanceToTarget / projectileSpeed;
+
+                float angle = 5.0f * travelTime;
+
+                actionLookAt.Position = newPostion + (Quaternion.Euler(0.0f, angle, 0.0f) * offset); ;
+
+            }
+
+            Blackboard.lastTargetPosition = Blackboard.target.Transform.Position;
+
             Blackboard.Add(actionLookAt);
+            state = NodeState.Success;
         }
     }
 
     public class ShootAction : Node
     {
-        public ShootAction() { }
-
-        override
-        public void Execute()
-        {
-            state = NodeState.Success;
-            Blackboard.Add(new AIActionFire());
-        }
-    }
-
-    public class MoveAction : Node
-    {
-        public MoveAction() { }
-
-        override
-        public void Execute()
-        {
-            state = NodeState.Success;
-            AIActionMoveToDestination actionMove = new AIActionMoveToDestination();
-            actionMove.Position = Blackboard.target.Transform.Position;
-            Blackboard.Add(actionMove);
-        }
-    }
-
-    public class StopAction : Node
-    {
-        public StopAction() { }
-
-        override
-        public void Execute()
-        {
-            state = NodeState.Success;
-            Blackboard.Add(new AIActionStopMovement());
-        }
-    }
-
-    public class GetAwayAction : Node
-    {
-        public GetAwayAction() {
-        }
+        public ShootAction() : base() { }
 
         public override void Execute()
         {
-
-            Vector3 positionFinal = Vector3.zero;
-            Collider[] colliders = Physics.OverlapSphere(Blackboard.myPlayerInfo.Transform.Position, 15.0f, Blackboard.AIGameWorldUtils.ProjectileLayerMask);
-            foreach(Collider collider in colliders)
-            {
-                var posProj = collider.transform.position;
-                var distProj = Vector3.Distance(posProj , Blackboard.myPlayerInfo.Transform.Position);
-                var factDist = 15.0f - distProj;
-                factDist = Mathf.Clamp(factDist, 5.0f, 15.0f);
-
-                Vector3 dir = Blackboard.GetBestDirection(Blackboard.AIGameWorldUtils.BonusLayerMask);
-                positionFinal += Blackboard.myPlayerInfo.Transform.Rotation * dir * factDist;
-            }
-
-
-            state = NodeState.Failure;
-            AIActionMoveToDestination actionMove = new AIActionMoveToDestination();
-            actionMove.Position = Blackboard.target.Transform.Position + positionFinal;
-            Blackboard.Add(actionMove);
+            AIActionFire aIActionFire = new AIActionFire();
+            Blackboard.Add(aIActionFire);
         }
     }
 
-    public class AwayDash : Node
+    public class GetHealthBonus : Node
     {
-        public AwayDash() { }
+        public GetHealthBonus() : base() { }
 
         public override void Execute()
         {
-            state = NodeState.Success;
-            AIActionDash actionDash = new AIActionDash();
-
-            Vector3 vecTargPlayer = Blackboard.myPlayerInfo.Transform.Position - Blackboard.target.Transform.Position;
-
-            int layerMask = Blackboard.AIGameWorldUtils.PlayerLayerMask;
-            layerMask |= Blackboard.AIGameWorldUtils.BonusLayerMask;
-            layerMask |= Blackboard.AIGameWorldUtils.ProjectileLayerMask;
-
-            Vector3 dir = Blackboard.GetBestDirection(layerMask);
-
-            actionDash.Direction = vecTargPlayer + (Blackboard.myPlayerInfo.Transform.Rotation * dir * 5);
-            Blackboard.Add(actionDash);
-        }
-    }
-
-    public class LateralDash : Node
-    {
-        public LateralDash() { }
-
-        public override void Execute()
-        {
-            state = NodeState.Success;
-            AIActionDash actionDash = new AIActionDash();
-
-            int layerMask = Blackboard.AIGameWorldUtils.PlayerLayerMask;
-            layerMask |= Blackboard.AIGameWorldUtils.BonusLayerMask;
-            layerMask |= Blackboard.AIGameWorldUtils.ProjectileLayerMask; 
-            Vector3 dir = Blackboard.GetBestDirection(layerMask);
-
-            actionDash.Direction = Blackboard.myPlayerInfo.Transform.Rotation * dir;
-            Blackboard.Add(actionDash);
-        }
-    }
-
-    public class GetHealthBonus : Node 
-    { 
-        public GetHealthBonus() { }
-
-        public override void Execute()
-        {
-           
             BonusInformations nearestHealthBonus = null;
             float dist = float.MaxValue;
             for (int i = 0; i < Blackboard.bonusInfos.Count; i++)
             {
-                if(Blackboard.bonusInfos[i].Type.Equals(EBonusType.Health))
+                if (Blackboard.bonusInfos[i].Type.Equals(EBonusType.Health))
                 {
                     float tempDist = Vector3.Distance(Blackboard.bonusInfos[i].Position, Blackboard.myPlayerInfo.Transform.Position);
                     if (tempDist <= dist)
@@ -374,10 +271,10 @@ namespace Kyllian_AI
                         dist = tempDist;
                     }
                 }
-                
+
             }
 
-            if(nearestHealthBonus == null)
+            if (nearestHealthBonus == null)
             {
                 state = NodeState.Failure; return;
             }
@@ -397,7 +294,7 @@ namespace Kyllian_AI
         {
             BonusInformations nearesthBonus = Blackboard.bonusInfos[0];
             float dist = Vector3.Distance(nearesthBonus.Position, Blackboard.myPlayerInfo.Transform.Position);
-            for(int i = 1; i < Blackboard.bonusInfos.Count; i++)
+            for (int i = 1; i < Blackboard.bonusInfos.Count; i++)
             {
                 float tempDist = Vector3.Distance(Blackboard.bonusInfos[i].Position, Blackboard.myPlayerInfo.Transform.Position);
                 if (tempDist <= dist)
@@ -414,21 +311,67 @@ namespace Kyllian_AI
         }
     }
 
-    //Conditions
-
-    public class HasNotTargetCondition : Condition
+    public class MoveAction : Node
     {
-        public HasNotTargetCondition() { }
+        public MoveAction() { }
 
-        public override bool Check()
+        public override void Execute()
         {
-            return Blackboard.target == null;
+            int layerMask = Blackboard.AIGameWorldUtils.BonusLayerMask;
+            Vector3 dir = Blackboard.GetBestDirection(layerMask);
+
+            Vector3 dirToTarget = Blackboard.target.Transform.Position - Blackboard.myPlayerInfo.Transform.Position;
+
+            Vector3 pos = dirToTarget + dir;
+
+            pos.Normalize();
+
+            var distance = Vector3.Distance(Blackboard.target.Transform.Position, Blackboard.myPlayerInfo.Transform.Position) - Blackboard.overlap;
+
+            AIActionMoveToDestination aIActionMoveTo = new AIActionMoveToDestination();
+            aIActionMoveTo.Position = pos * distance;
+            Blackboard.Add(aIActionMoveTo);
+
         }
     }
 
-    public class HasTargetCondition : Condition
+    public class DashAwayAction : Node
     {
-        public HasTargetCondition() { }
+        public DashAwayAction() { }
+
+        public override void Execute()
+        {
+            int layerMask = Blackboard.AIGameWorldUtils.BonusLayerMask;
+            Vector3 dir = Blackboard.GetBestDirection(layerMask);
+
+            Vector3 dirToTarget = Blackboard.myPlayerInfo.Transform.Position - Blackboard.target.Transform.Position;
+
+            Vector3 pos = dirToTarget + dir;
+
+            AIActionDash aIActionDash = new AIActionDash();
+            aIActionDash.Direction = pos;
+            Blackboard.Add(aIActionDash);
+        }
+    }
+
+    #endregion
+
+    //Conditions
+    #region Condition
+
+    public class PlayerValid : Condition
+    {
+        public PlayerValid() { }
+
+        public override bool Check()
+        {
+            return Blackboard.myPlayerInfo != null;
+        }
+    }
+
+    public class TargetValid : Condition
+    {
+        public TargetValid() { }
 
         public override bool Check()
         {
@@ -436,29 +379,9 @@ namespace Kyllian_AI
         }
     }
 
-    public class IsPlayerInvalidCondition : Condition
+    public class IsTargetVisible : Condition
     {
-        public IsPlayerInvalidCondition() { }
-
-        public override bool Check()
-        {
-            return Blackboard.myPlayerInfo == null;
-        }
-    }
-
-    public class HasBestRangeToShoot : Condition
-    {
-        public HasBestRangeToShoot() { }
-
-        public override bool Check()
-        {
-            return Vector3.Distance(Blackboard.myPlayerInfo.Transform.Position, Blackboard.target.Transform.Position) < Blackboard.BestDistanceToFire;
-        }
-    }
-
-    public class TargetGetSight : Condition
-    {
-        public TargetGetSight() { }
+        public IsTargetVisible() { }
 
         public override bool Check()
         {
@@ -466,49 +389,7 @@ namespace Kyllian_AI
             layers |= Blackboard.AIGameWorldUtils.ProjectileLayerMask;
 
             RaycastHit hit;
-            if (Physics.Raycast(Blackboard.target.Transform.Position, Blackboard.target.Transform.Rotation * Vector3.forward, out hit, Mathf.Infinity, ~layers))
-            {
-                return Vector3.Distance(hit.collider.transform.position, Blackboard.myPlayerInfo.Transform.Position) < 0.00001f;
-            }
-
-            return false;
-        }
-    }
-
-    public class IsDashAvailable : Condition
-    { 
-        public IsDashAvailable() { }
-        
-        public override bool Check()
-        {
-            return Blackboard.myPlayerInfo.IsDashAvailable;
-        }
-    
-    }
-
-    public class TargetTooClose : Condition
-    {
-        public TargetTooClose() { }
-
-        public override bool Check()
-        {
-            //return Vector3.Distance(Blackboard.myPlayerInfo.Transform.Position, Blackboard.target.Transform.Position) < 18.0f;
-            return Physics.OverlapSphere(Blackboard.myPlayerInfo.Transform.Position, 15.0f, Blackboard.AIGameWorldUtils.ProjectileLayerMask).Length > 0;
-        }
-    }
-
-    public class LookAtTarget : Condition
-    {
-        public LookAtTarget() { }
-
-        public override bool Check()
-        {
-
-            int layers = Blackboard.AIGameWorldUtils.BonusLayerMask;
-            layers |= Blackboard.AIGameWorldUtils.ProjectileLayerMask;
-            
-            RaycastHit hit;
-            if (Physics.Raycast(Blackboard.myPlayerInfo.Transform.Position, Blackboard.myPlayerInfo.Transform.Rotation * Vector3.forward, out hit, Mathf.Infinity, ~layers))
+            if (Physics.Raycast(Blackboard.myPlayerInfo.Transform.Position, Blackboard.target.Transform.Position - Blackboard.myPlayerInfo.Transform.Position, out hit, Mathf.Infinity, ~layers))
             {
                 return Vector3.Distance(hit.collider.transform.position, Blackboard.target.Transform.Position) < 0.00001f;
             }
@@ -517,35 +398,18 @@ namespace Kyllian_AI
         }
     }
 
-    public class LowInHealth : Condition { 
-        public LowInHealth() { } 
-
-        public override bool Check()
-        {
-            return (Blackboard.myPlayerInfo.CurrentHealth / Blackboard.myPlayerInfo.MaxHealth) < 0.3;
-        }
-    }
-
-    public class IsHealthBonus : Condition
+    public class IsPlayerLowInHealth : Condition
     {
-        public IsHealthBonus() { }
+        public IsPlayerLowInHealth() { }
 
         public override bool Check()
         {
-            foreach(var bi in Blackboard.bonusInfos)
-            {
-                if(bi.Type.Equals(EBonusType.Health))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return Blackboard.myPlayerInfo.CurrentHealth / Blackboard.myPlayerInfo.MaxHealth < 0.3;
         }
     }
 
     public class IsBonusAvailable : Condition
-    { 
+    {
         public IsBonusAvailable() { }
 
         public override bool Check()
@@ -553,5 +417,27 @@ namespace Kyllian_AI
             return Blackboard.bonusInfos.Count > 0;
         }
     }
+
+    public class IsDashAvailable : Condition
+    {
+        public IsDashAvailable() { }
+
+        public override bool Check()
+        {
+            return Blackboard.myPlayerInfo.IsDashAvailable;
+        }
+    }
+
+    public class IsTargetTooClose : Condition
+    {
+        public IsTargetTooClose() { }
+
+        public override bool Check()
+        {
+            return Vector3.Distance(Blackboard.target.Transform.Position, Blackboard.myPlayerInfo.Transform.Position) < 7.0f;
+        }
+    }
+
+    #endregion
 
 }

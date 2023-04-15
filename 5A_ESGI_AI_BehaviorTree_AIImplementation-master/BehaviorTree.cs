@@ -51,7 +51,7 @@ namespace BehaviorTree_ESGI
 
             if (lastRunningNode != null)
             {
-                Debug.LogError(lastRunningNode);
+                //Debug.LogError(lastRunningNode);
                 lastRunningNode.Execute();
                 if (lastRunningNode.state == NodeState.Success)
                 {
@@ -167,14 +167,5 @@ namespace BehaviorTree_ESGI
             //TODO : Exe the differents nodes in the list
         }
 
-        public void ForceSuccess()
-        {
-            this.state = NodeState.Success;
-        }
-
-        public void ForceFailure()
-        {
-            this.state = NodeState.Failure;
-        }
     }
 }

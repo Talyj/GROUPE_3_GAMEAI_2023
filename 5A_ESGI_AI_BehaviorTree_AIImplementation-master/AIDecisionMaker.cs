@@ -22,20 +22,8 @@ namespace AI_BehaviorTree_AIImplementation
         // Ne pas utiliser cette fonction, elle n'est utile que pour le jeu qui vous Set votre Id, si vous voulez votre Id utilisez AIId
         public void SetAIId(int parAIId) { 
             AIId = parAIId;
-            
-            Selector start = new Selector();
-            LowHealthSequence lowHealthSequence = new LowHealthSequence();
-            NoTargetSequence noTargetSequence = new NoTargetSequence();
-            IsPlayerInvalidCondition isPlayerInvalidCondition = new IsPlayerInvalidCondition();
-            MoveSelector moveSelector = new MoveSelector();
-            AttackSequence attackSequence = new AttackSequence();
-            start.nodes.Add(lowHealthSequence);
-            start.nodes.Add(noTargetSequence);
-            start.nodes.Add(isPlayerInvalidCondition);
-            start.nodes.Add(moveSelector);
-            start.nodes.Add(attackSequence);
 
-            Blackboard.Initialize(start, AIId); 
+            Blackboard.Initialize(AIId); 
         }
 
         // Vous pouvez modifier le contenu de cette fonction pour modifier votre nom en jeu
@@ -48,51 +36,6 @@ namespace AI_BehaviorTree_AIImplementation
 
         public List<AIAction> ComputeAIDecision()
         {
-            //Debug.LogError($"{AIGameWorldUtils.Equals(Blackboard.AIGameWorldUtils)}");
-            /*List<AIAction> actionList = new List<AIAction>();
-
-            List<PlayerInformations> playerInfos = AIGameWorldUtils.GetPlayerInfosList();
-
-            PlayerInformations target = null;
-            foreach (PlayerInformations playerInfo in playerInfos)
-            {
-                if (!playerInfo.IsActive)
-                    continue;
-
-                if (playerInfo.PlayerId == AIId)
-                    continue;
-
-                target = playerInfo;
-                break;
-            }
-
-            if (target == null)
-                return actionList;
-
-            PlayerInformations myPlayerInfo = GetPlayerInfos(AIId, playerInfos);
-            if (myPlayerInfo == null)
-                return actionList;
-
-            if (Vector3.Distance(myPlayerInfo.Transform.Position, target.Transform.Position) < BestDistanceToFire)
-            {
-                AIActionStopMovement actionStop = new AIActionStopMovement();
-                actionList.Add(actionStop);
-            }
-            else
-            {
-                AIActionMoveToDestination actionMove = new AIActionMoveToDestination();
-                actionMove.Position = target.Transform.Position;
-                actionList.Add(actionMove);
-            }
-
-
-            AIActionLookAtPosition actionLookAt = new AIActionLookAtPosition();
-            actionLookAt.Position = target.Transform.Position;
-            actionList.Add(actionLookAt);
-            actionList.Add(new AIActionFire());
-
-            return actionList;*/
-
             Blackboard.Execute(GetPlayerInfos);
 
             return Blackboard.actions;
