@@ -30,8 +30,6 @@ namespace BehaviorTree_ESGI
                     this.state = n.state;
                 }
             }
-
-
         }
     }
 
@@ -51,7 +49,6 @@ namespace BehaviorTree_ESGI
 
             if (lastRunningNode != null)
             {
-                Debug.LogError(lastRunningNode);
                 lastRunningNode.Execute();
                 if (lastRunningNode.state == NodeState.Success)
                 {
@@ -153,7 +150,7 @@ namespace BehaviorTree_ESGI
     {
         NotExecuted = 0, Failure = 1, Success = 2, Running = 4
     }
-
+    
     public class Node
     {
         public NodeState state;
